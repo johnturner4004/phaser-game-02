@@ -1,0 +1,42 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "fileStates": {
+        "dungeon-02.tmx": {
+            "scale": 1.28,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 200.390625,
+                "y": 190.234375
+            }
+        },
+        "dungeon-02.tsx": {
+            "scaleInDock": 1.81,
+            "scaleInEditor": 1
+        }
+    },
+    "last.exportedFilePath": "/Users/john/projects/phaser-game-2/public/tilemaps",
+    "last.imagePath": "/Users/john/projects/phaser-game-2/public/tilemaps",
+    "map.height": 100,
+    "map.lastUsedExportFilter": "All Files (*)",
+    "map.lastUsedFormat": "tmx",
+    "map.width": 100,
+    "openFiles": [
+    ],
+    "project": "dungeon-02.tiled-project",
+    "recentFiles": [
+        "dungeon-02.tmx",
+        "dungeon-02.tsx"
+    ],
+    "tileset.embedInMap": true,
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
+}
