@@ -28,14 +28,23 @@ export default class Squirrel extends Phaser.Physics.Arcade.Sprite {
 
     if (upDown) {
       this.setVelocity(0, -speed)
+      this.anims.play('squirrel-run-up', true)
     } else if (downDown) {
       this.setVelocity(0, speed)
+      this.anims.play('squirrel-run-down', true)
     } else if (leftDown) {
       this.setVelocity(-speed, 0)
+      this.anims.play('squirrel-run-left', true)
     } else if (rightDown) {
       this.setVelocity(speed, 0)
+      this.anims.play('squirrel-run-right', true)
     } else {
       this.setVelocity(0, 0)
+      if (this.anims.currentAnim !== null) {
+        const frame = this.anims.currentAnim.key.split('-')
+        frame[1] = 'idle'
+        this.anims.play(frame.join('-'), true)
+      }
     }
   }
 }
