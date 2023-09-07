@@ -1,14 +1,20 @@
+import '../characters/Squirrel'
+
 import Phaser from 'phaser'
+import Squirrel from '../characters/Squirrel'
 import { createSquirrelAnims } from '../anims/SquirrelAnims'
 
 export default class Game extends Phaser.Scene {
+  private cursors!: Phaser.Types.Input.Keyboard.CursorKeys
+  private squirrel!: Squirrel
+
 	constructor() {
 		super('game')
 	}
 
-	// preload() {
-    
-	// }
+	preload() {
+    this.cursors = this.input.keyboard.createCursorKeys()
+	}
 
 	create() {
     createSquirrelAnims(this.anims)
@@ -19,7 +25,12 @@ export default class Game extends Phaser.Scene {
     map.createLayer('Ground', (tileset as Phaser.Tilemaps.Tileset), 0, 0) as Phaser.Tilemaps.TilemapLayer
     map.createLayer('Wall', (tileset as Phaser.Tilemaps.Tileset), 0, 0) as Phaser.Tilemaps.TilemapLayer
 
-    const squirrel = this.add.sprite(100, 100, 'squirrel', '0.png')
-    squirrel.anims.play('squirrel-idle-down')
+    this.squirrel = this.add.squirrel(100, 100, 'squirrel')
 	}
+
+  update(t: number, dt: number): void {
+    if (this.squirrel) {
+      this.squirrel.update(this.cursors)
+    }
+  }
 }

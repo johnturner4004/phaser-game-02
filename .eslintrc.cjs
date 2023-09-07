@@ -12,6 +12,7 @@ module.exports = {
 	},
 	plugins: ['@typescript-eslint'],
 	rules: {
+    '@typescript-eslint/no-namespace': false,
 		'@typescript-eslint/explicit-function-return-type': 0,
 		'@typescript-eslint/ban-ts-ignore': 0,
 		'@typescript-eslint/member-delimiter-style': 0,
