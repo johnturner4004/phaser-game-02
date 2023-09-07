@@ -34,6 +34,7 @@
         "dungeon-02.tmx"
     ],
     "project": "dungeon-02.tiled-project",
+    "property.type": "string",
     "recentFiles": [
         "dungeon-02.tmx",
         "dungeon-02.tsx"
