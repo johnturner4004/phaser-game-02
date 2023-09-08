@@ -2,12 +2,17 @@ import '../characters/Squirrel'
 
 import Phaser from 'phaser'
 import Squirrel from '../characters/Squirrel'
+import { createSkeletonAnims } from '../anims/SkeletonAnims'
 import { createSquirrelAnims } from '../anims/SquirrelAnims'
 import { debugDraw } from '../utils/debug'
 
 export default class Game extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys
   private squirrel!: Squirrel
+  private cameraPosition = {
+    x: 200,
+    y: 152
+  }
 
 	constructor() {
 		super('game')
@@ -19,6 +24,7 @@ export default class Game extends Phaser.Scene {
 
 	create() {
     createSquirrelAnims(this.anims)
+    createSkeletonAnims(this.anims)
 
     const map = this.make.tilemap({ key: 'dungeon-02' })
     const tileset = map.addTilesetImage('dungeon-02', 'tiles')
@@ -37,6 +43,9 @@ export default class Game extends Phaser.Scene {
     doorLayer.setCollisionByProperty({ door: true })
     debugDraw(doorLayer, this, {red: 227, green: 28, blue: 121, alpha: 255})
 
+    const skeleton = this.add.sprite(250, 100, 'skeleton', 'skeleton/120.png')
+    skeleton.anims.play('skeleton-idle-down')
+
     this.physics.add.collider(this.squirrel, wallLayer)
     this.physics.add.collider(this.squirrel, doorLayer, this.handleSquirrelDoorCollision, undefined, this)
 	}
@@ -47,10 +56,14 @@ export default class Game extends Phaser.Scene {
     const direction = squirrelObj.anims.currentAnim!.key.split('-')[2]
 
     if (direction === 'down') {
-      this.cameras.main.scrollY += 304
+      // this.cameras.main.scrollY += 304
+      this.cameraPosition.y += 304
+      this.cameras.main.pan(this.cameraPosition.x, this.cameraPosition.y, 2000, 'Sine.easeInOut')
       squirrelObj.y += 70
     } else if (direction === 'up') {
-      this.cameras.main.scrollY -= 304
+      // this.cameras.main.scrollY -= 304
+      this.cameraPosition.y -= 304
+      this.cameras.main.pan(this.cameraPosition.x, this.cameraPosition.y, 2000, 'Sine.easeInOut')
       squirrelObj.y -= 70
     }
   }

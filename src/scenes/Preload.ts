@@ -10,6 +10,7 @@ export default class Preload extends Phaser.Scene {
     this.load.tilemapTiledJSON('dungeon-02', '/tilemaps/dungeon-02.json')
 
     this.load.atlas('squirrel', '/sprites/character/squirrel.png', '/sprites/character/squirrel.json')
+    this.load.atlas('skeleton', '/sprites/enemies/skeleton.png', '/sprites/enemies/skeleton.json')
   }
 
   create() {

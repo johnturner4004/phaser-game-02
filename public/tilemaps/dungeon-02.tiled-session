@@ -8,16 +8,23 @@
         "."
     ],
     "fileStates": {
+        "#dungeon-03": {
+            "scaleInDock": 1
+        },
         "dungeon-02.tmx": {
             "scale": 1.6576,
-            "selectedLayer": 0,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 162.58445945945945,
-                "y": 208.4338803088803
+                "x": 159.5680501930502,
+                "y": 196.36824324324326
             }
         },
         "dungeon-02.tmx#dungeon-02": {
-            "scaleInDock": 3.2206
+            "scaleInDock": 1.9645,
+            "scaleInEditor": 3.07
+        },
+        "dungeon-02.tmx#dungeon-03": {
+            "scaleInDock": 1
         },
         "dungeon-02.tsx": {
             "scaleInDock": 1.81,
@@ -25,10 +32,12 @@
         }
     },
     "last.exportedFilePath": "/Users/john/projects/phaser-game-2/public/tilemaps",
-    "last.imagePath": "/Users/john/projects/phaser-game-2/public/tilemaps",
+    "last.imagePath": "/Users/john/Desktop",
     "map.height": 100,
     "map.lastUsedExportFilter": "All Files (*)",
     "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
     "map.width": 100,
     "openFiles": [
         "dungeon-02.tmx"
