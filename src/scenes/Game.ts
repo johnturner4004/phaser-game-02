@@ -1,6 +1,7 @@
 import '../characters/Squirrel'
 
 import Phaser from 'phaser'
+import Skeleton from '../enemies/Skeleton'
 import Squirrel from '../characters/Squirrel'
 import { createSkeletonAnims } from '../anims/SkeletonAnims'
 import { createSquirrelAnims } from '../anims/SquirrelAnims'
@@ -9,6 +10,7 @@ import { debugDraw } from '../utils/debug'
 export default class Game extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys
   private squirrel!: Squirrel
+  private skeletons!: Phaser.Physics.Arcade.Group
   private cameraPosition = {
     x: 200,
     y: 152
@@ -43,11 +45,24 @@ export default class Game extends Phaser.Scene {
     doorLayer.setCollisionByProperty({ door: true })
     debugDraw(doorLayer, this, {red: 227, green: 28, blue: 121, alpha: 255})
 
-    const skeleton = this.add.sprite(250, 100, 'skeleton', 'skeleton/120.png')
-    skeleton.anims.play('skeleton-idle-down')
+    this.skeletons = this.physics.add.group({
+      classType: Skeleton,
+      createCallback: (go) => {
+        const skeletonGo = go as Skeleton
+        skeletonGo.body!.onCollide = true
+      }
+    })
+
+    const skeletonLayer = map.getObjectLayer('Skeletons') 
+    skeletonLayer?.objects.forEach(skeletonObj => {
+      this.skeletons.get(skeletonObj.x, skeletonObj.y, 'skeleton')
+    })
 
     this.physics.add.collider(this.squirrel, wallLayer)
     this.physics.add.collider(this.squirrel, doorLayer, this.handleSquirrelDoorCollision, undefined, this)
+
+    this.physics.add.collider(this.skeletons, wallLayer)
+    this.physics.add.collider(this.skeletons, doorLayer)
 	}
 
   private handleSquirrelDoorCollision(obj1: Phaser.Physics.Arcade.Sprite, obj2: Phaser.GameObjects.GameObject): void {
