@@ -8,15 +8,75 @@ declare global {
   }
 }
 
+enum HealthState {
+  IDLE,
+  DAMAGE,
+  DEAD
+}
+
 export default class Squirrel extends Phaser.Physics.Arcade.Sprite {
+  private _healthState = HealthState.IDLE
+  private _health = 3
+  private _damageTime = 0
+
+  get health() {
+    return this._health
+  }
+
   constructor(scene: Phaser.Scene, x: number, y: number, texture: string, frame?: string | number) {
     super(scene, x, y, texture, frame)
 
     this.anims.play('squirrel-idle-down')
   }
 
+  handleDamage(dir: Phaser.Math.Vector2) {
+    // if (this._health <= 0 || this._healthState === HealthState.DAMAGE) {
+    //   return
+    // }
+
+    // --this._health
+
+    // if (this._health <= 0) {
+      // dead
+    // } else {
+      this._healthState = HealthState.DAMAGE
+      this.setVelocity(dir.x, dir.y)
+      this._damageTime = 0
+      
+    // }
+  }
+
+  protected preUpdate(t: number, dt: number): void {
+    super.preUpdate(t, dt)
+
+    switch (this._healthState) {
+      case HealthState.DAMAGE:
+        this._damageTime += dt
+        if (this._damageTime > 250) {
+          this._healthState = HealthState.IDLE
+          this.setTint(0xffffff)
+          this._damageTime = 0
+        }
+
+        if (Math.floor(this._damageTime / 10) % 2 === 1) {
+          this.setTint(0xff0000)
+        } else {
+          this.setTint(0xffffff)
+        }
+        break
+
+      case HealthState.DEAD:
+
+        break
+
+      case HealthState.IDLE:
+
+        break
+    }
+  }
+
   update(cursors: Phaser.Types.Input.Keyboard.CursorKeys) {
-    if (!cursors) {
+    if (!cursors || this._healthState === HealthState.DAMAGE) {
       return
     }
 

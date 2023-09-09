@@ -11,6 +11,7 @@ export default class Game extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys
   private squirrel!: Squirrel
   private skeletons!: Phaser.Physics.Arcade.Group
+  private squirrelSkeletonCollider?: Phaser.Physics.Arcade.Collider
   private cameraPosition = {
     x: 200,
     y: 152
@@ -63,24 +64,34 @@ export default class Game extends Phaser.Scene {
 
     this.physics.add.collider(this.skeletons, wallLayer)
     this.physics.add.collider(this.skeletons, doorLayer)
+
+    this.squirrelSkeletonCollider = this.physics.add.collider(this.squirrel, this.skeletons, this.handleSquirrelSkeletonCollision, undefined, this)
 	}
 
   private handleSquirrelDoorCollision(obj1: Phaser.Physics.Arcade.Sprite, obj2: Phaser.GameObjects.GameObject): void {
     const squirrelObj = obj1
-    const doorObj = obj2
     const direction = squirrelObj.anims.currentAnim!.key.split('-')[2]
 
     if (direction === 'down') {
-      // this.cameras.main.scrollY += 304
       this.cameraPosition.y += 304
       this.cameras.main.pan(this.cameraPosition.x, this.cameraPosition.y, 2000, 'Sine.easeInOut')
       squirrelObj.y += 70
     } else if (direction === 'up') {
-      // this.cameras.main.scrollY -= 304
       this.cameraPosition.y -= 304
       this.cameras.main.pan(this.cameraPosition.x, this.cameraPosition.y, 2000, 'Sine.easeInOut')
       squirrelObj.y -= 70
     }
+  }
+
+  private handleSquirrelSkeletonCollision(obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject) {
+    const skeleton = obj2 as Skeleton
+
+    const dx = this.squirrel.x - skeleton.x
+    const dy = this.squirrel.y - skeleton.y
+
+    const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
+
+    this.squirrel.handleDamage(dir)
   }
 
   update(t: number, dt: number): void {

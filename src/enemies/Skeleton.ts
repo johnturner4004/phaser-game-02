@@ -26,6 +26,8 @@ export default class Skeleton extends Phaser.Physics.Arcade.Sprite {
 
     this.anims.play('skeleton-idle-down')
 
+    scene.physics.world.on(Phaser.Physics.Arcade.Events.TILE_COLLIDE, this.handleTileCollision, this)
+
     this.moveEvent = scene.time.addEvent({
       delay: 2000,
       callback: () => {
@@ -35,33 +37,47 @@ export default class Skeleton extends Phaser.Physics.Arcade.Sprite {
     })
   }
 
+  destroy(fromScene?: boolean | undefined): void {
+    this.moveEvent.destroy()
+
+    super.destroy(fromScene)
+  }
+
+  private handleTileCollision(go: Phaser.GameObjects.GameObject, tile: Phaser.Tilemaps.Tile) {
+    if (go !== this) {
+      return
+    }
+
+    this.direction = randomDirection(this.direction)
+  }
+
   protected preUpdate(t: number, dt: number): void {
-      super.preUpdate(t, dt)
+    super.preUpdate(t, dt)
 
-      const speed = 50
+    const speed = 50
 
-      switch (this.direction) {
-        case Direction.UP:
-          this.setVelocity(0, -speed)
-          this.anims.play('skeleton-run-up', true)
-          break
+    switch (this.direction) {
+      case Direction.UP:
+        this.setVelocity(0, -speed)
+        this.anims.play('skeleton-run-up', true)
+        break
 
-        case Direction.DOWN:
-          this.setVelocity(0, speed)
-          this.anims.play('skeleton-run-down', true)
-          break
+      case Direction.DOWN:
+        this.setVelocity(0, speed)
+        this.anims.play('skeleton-run-down', true)
+        break
 
-        case Direction.LEFT:
-          this.setVelocity(-speed, 0)
-          this.anims.play('skeleton-run-right', true)
-          this.setFlipX(true)
-          break
+      case Direction.LEFT:
+        this.setVelocity(-speed, 0)
+        this.anims.play('skeleton-run-right', true)
+        this.setFlipX(true)
+        break
 
-        case Direction.RIGHT:
-          this.setVelocity(speed, 0)
-          this.anims.play('skeleton-run-right', true)
-          this.setFlipX(false)
-          break
-      }
+      case Direction.RIGHT:
+        this.setVelocity(speed, 0)
+        this.anims.play('skeleton-run-right', true)
+        this.setFlipX(false)
+        break
+    }
   }
 }
