@@ -13,10 +13,10 @@
         },
         "dungeon-02.tmx": {
             "scale": 1.6576,
-            "selectedLayer": 2,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 159.5680501930502,
-                "y": 196.36824324324326
+                "x": 177.06322393822393,
+                "y": 711.5709459459459
             }
         },
         "dungeon-02.tmx#dungeon-02": {

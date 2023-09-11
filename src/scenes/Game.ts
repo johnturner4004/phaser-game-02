@@ -6,6 +6,7 @@ import Squirrel from '../characters/Squirrel'
 import { createSkeletonAnims } from '../anims/SkeletonAnims'
 import { createSquirrelAnims } from '../anims/SquirrelAnims'
 import { debugDraw } from '../utils/debug'
+import { sceneEvents } from '../events/EventsCenter'
 
 export default class Game extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys
@@ -26,6 +27,8 @@ export default class Game extends Phaser.Scene {
 	}
 
 	create() {
+    this.scene.run('game-ui')
+
     createSquirrelAnims(this.anims)
     createSkeletonAnims(this.anims)
 
@@ -40,11 +43,11 @@ export default class Game extends Phaser.Scene {
     
     const wallLayer = map.createLayer('Wall', (tileset as Phaser.Tilemaps.Tileset), 0, 0) as Phaser.Tilemaps.TilemapLayer
     wallLayer.setCollisionByProperty({ collides: true })
-    debugDraw(wallLayer, this, {red: 243, green: 234, blue: 48, alpha: 255})
+    // debugDraw(wallLayer, this, {red: 243, green: 234, blue: 48, alpha: 255})
     
     const doorLayer = map.createLayer('Door', (tileset as Phaser.Tilemaps.Tileset), 0, 0) as Phaser.Tilemaps.TilemapLayer
     doorLayer.setCollisionByProperty({ door: true })
-    debugDraw(doorLayer, this, {red: 227, green: 28, blue: 121, alpha: 255})
+    // debugDraw(doorLayer, this, {red: 227, green: 28, blue: 121, alpha: 255})
 
     this.skeletons = this.physics.add.group({
       classType: Skeleton,
@@ -92,6 +95,12 @@ export default class Game extends Phaser.Scene {
     const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
 
     this.squirrel.handleDamage(dir)
+
+    sceneEvents.emit('player-health-changed', this.squirrel.health)
+
+    if (this.squirrel.health <= 0) {
+      this.squirrelSkeletonCollider?.destroy()
+    }
   }
 
   update(t: number, dt: number): void {

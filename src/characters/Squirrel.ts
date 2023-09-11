@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import { sceneEvents } from '../events/EventsCenter'
 
 declare global {
   namespace Phaser.GameObjects {
@@ -30,20 +31,22 @@ export default class Squirrel extends Phaser.Physics.Arcade.Sprite {
   }
 
   handleDamage(dir: Phaser.Math.Vector2) {
-    // if (this._health <= 0 || this._healthState === HealthState.DAMAGE) {
-    //   return
-    // }
+    if (this._health <= 0 || this._healthState === HealthState.DAMAGE) {
+      return
+    }
 
-    // --this._health
+    --this._health
 
-    // if (this._health <= 0) {
-      // dead
-    // } else {
+    if (this._health <= 0) {
+      this._healthState = HealthState.DEAD
+      this.setVelocity(0, 0)
+      this.anims.play('squirrel-death')
+    } else {
       this._healthState = HealthState.DAMAGE
       this.setVelocity(dir.x, dir.y)
       this._damageTime = 0
       
-    // }
+    }
   }
 
   protected preUpdate(t: number, dt: number): void {
@@ -76,7 +79,7 @@ export default class Squirrel extends Phaser.Physics.Arcade.Sprite {
   }
 
   update(cursors: Phaser.Types.Input.Keyboard.CursorKeys) {
-    if (!cursors || this._healthState === HealthState.DAMAGE) {
+    if (!cursors || this._healthState === HealthState.DAMAGE || this._healthState === HealthState.DEAD) {
       return
     }
 

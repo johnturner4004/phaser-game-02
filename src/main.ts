@@ -1,4 +1,5 @@
 import Game from './scenes/Game'
+import GameUI from './scenes/GameUI'
 import Phaser from 'phaser'
 import Preload from './scenes/Preload'
 
@@ -11,10 +12,10 @@ const config: Phaser.Types.Core.GameConfig = {
 		default: 'arcade',
 		arcade: {
 			gravity: { y: 0 },
-      debug: true
+      debug: false
 		},
 	},
-	scene: [Preload, Game],
+	scene: [Preload, Game, GameUI],
   scale: {
     zoom: 2
   }
