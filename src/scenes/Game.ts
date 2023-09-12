@@ -5,7 +5,7 @@ import Skeleton from '../enemies/Skeleton'
 import Squirrel from '../characters/Squirrel'
 import { createSkeletonAnims } from '../anims/SkeletonAnims'
 import { createSquirrelAnims } from '../anims/SquirrelAnims'
-import { debugDraw } from '../utils/debug'
+// import { debugDraw } from '../utils/debug'
 import { sceneEvents } from '../events/EventsCenter'
 
 export default class Game extends Phaser.Scene {
